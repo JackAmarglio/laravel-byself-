@@ -144,7 +144,7 @@ class UserAuthController extends Controller
             return response($response, 200);
         }
         else {
-            return response("Invalid Email", 404);
+            return response("Invalid Email", 500);
         }
 
     }
