@@ -116,12 +116,16 @@ class UserAuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6',
+            // 'password' => 'required|string|min:6',
         ]);
         if ($validator->fails()) {
             return response(['errors' => $validator->errors()->all()], 422);
         }
-        $request['password'] = Hash::make($request['password']);
+
+        $data = $request->json()->all();
+        $sent_email = $data['email'];
+        $user = User::where('email', $sent_email)->get();
+        // $request['password'] = Hash::make($request['password']);
 
         $encrypt_method = "AES-256-CBC";
         $secret_key = '7aE3OKIZxusugQdpk3gwNi9x63MRAFLgkMJ4nyil88ZYMyjqTSE3FIo8L5KJghfi';
@@ -130,13 +134,20 @@ class UserAuthController extends Controller
 
         $iv = substr(hash('sha256', $secret_iv), 0, 16);
 
-        $string = json_encode(array(["email" => $request["email"], "password" => $request['password']]));
+        // $string = json_encode(array(["email" => $request["email"], "password" => $request['password']]));
+        $string = json_encode(['email' => $sent_email]);
         $encryptToken = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
         $encryptToken = base64_encode($encryptToken);
 
-        Mail::to($request['email'])->send(new PasswordReset($request['email'], $encryptToken));
-        $response = ["success" => 'true', 'message' => 'Send Resetpassword Email Success'];
-        return response($response, 200);
+        if($user->count > 0) {
+            Mail::to($request['email'])->send(new PasswordReset($request['email'], $encryptToken));
+            $response = ["success" => 'true', 'message' => 'Send Resetpassword Email Success'];
+            return response($response, 200);
+        }
+        else {
+            return response("Invalid Email", 404);
+        }
+
     }
 
     public function setresetpassword(Request $request)
@@ -152,7 +163,7 @@ class UserAuthController extends Controller
 
         $decryptTokenArray = json_decode($decryptToken);
         $email = ($decryptTokenArray[0]->email);
-        $password = ($decryptTokenArray[0]->password);
+        $password = $data['password'];
         $user = User::where('email', $email)->first()->update(['password' => $password]);
         return response('OK');
     }

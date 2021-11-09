@@ -16,7 +16,7 @@ use App\Http\Controllers\UserAuthController;
 */
 
 Route::post('/resetpassword',[UserAuthController::class, 'sendresetpasswordemail']);
-Route::post('/setresetpassword',[UserAuthController::class, 'setresetpassword']);
+Route::post('/changepassword',[UserAuthController::class, 'setresetpassword']);
 Route::post('/login', [UserAuthController::class, 'login']);
 Route::post('/logout', [UserAuthController::class, 'logout']);
 Route::post('/register', [UserAuthController::class, 'register']);
