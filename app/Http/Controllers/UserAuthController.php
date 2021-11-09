@@ -137,7 +137,6 @@ class UserAuthController extends Controller
 
     public function setresetpassword(Request $request)
     {
-        $data = $request->json()->all();
         $encrypt_method = "AES-256-CBC";
         $secret_key = '7aE3OKIZxusugQdpk3gwNi9x63MRAFLgkMJ4nyil88ZYMyjqTSE3FIo8L5KJghfi';
         $secret_iv = '7aE3OKIZxusugQdpk3gwNi9x63MRAFLgkMJ4nyil88ZYMyjqTSE3FIo8L5KJghfi';
@@ -148,7 +147,7 @@ class UserAuthController extends Controller
 
         $decryptTokenArray = json_decode($decryptToken, true);
         $email = ($decryptTokenArray[0]['email']);
-        $password = Hash::make($data['password']);
+        $password = Hash::make($request['password']);
         $user = User::where('email', $email)->update(['password' => $password]);
         return response('OK');
     }
