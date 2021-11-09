@@ -70,13 +70,6 @@ class UserAuthController extends Controller
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6',
-        ]);
-        if ($validator->fails()) {
-            return response(['errors' => $validator->errors()->all()], 422);
-        }
         $user = User::where('email', $request->email)->first();
         if ($user) {
             $verified = $user->verified;
@@ -114,13 +107,6 @@ class UserAuthController extends Controller
 
     public function sendresetpasswordemail(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255',
-        ]);
-        if ($validator->fails()) {
-            return response(['errors' => $validator->errors()->all()], 422);
-        }
-
         $data = $request->json()->all();
         $sent_email = $data['email'];
         $user = User::where('email', $sent_email)->get();
