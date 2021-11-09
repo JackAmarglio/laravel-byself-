@@ -124,7 +124,7 @@ class UserAuthController extends Controller
         $encryptToken = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
         $encryptToken = base64_encode($encryptToken);
 
-        if($user->count() > 0) {
+        if($user->count() >= 0) {
             Mail::to($sent_email)->send(new PasswordReset($sent_email, $encryptToken));
             $response = ["success" => 'true', 'message' => 'Send Resetpassword Email Success'];
             return response($response, 200);
