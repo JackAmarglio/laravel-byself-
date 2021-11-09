@@ -29,6 +29,6 @@ class PasswordReset extends Mailable
      */
     public function build()
     {
-        return $this ->subject('Password Reset')->markdown('email.resetPassword');
+        return $this ->subject('Password Reset')->markdown('Email.resetPassword');
     }
 }
