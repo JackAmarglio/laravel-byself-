@@ -134,7 +134,7 @@ class UserAuthController extends Controller
         $iv = substr(hash('sha256', $secret_iv), 0, 16);
 
         // $string = json_encode(array(["email" => $request["email"], "password" => $request['password']]));
-        $string = json_encode(['email' => $sent_email]);
+        $string = json_encode(array(["email"=>$data["email"]]));
         $encryptToken = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
         $encryptToken = base64_encode($encryptToken);
 
@@ -161,7 +161,7 @@ class UserAuthController extends Controller
         $decryptToken = openssl_decrypt(base64_decode($data["token"]), $encrypt_method, $key, 0, $iv);
 
         $decryptTokenArray = json_decode($decryptToken);
-        $email = ($decryptTokenArray[0]);
+        $email = ($decryptTokenArray[0]->email);
         $password = $data['password'];
         $user = User::where('email', $email)->first()->update(['password' => $password]);
         return response('OK');
