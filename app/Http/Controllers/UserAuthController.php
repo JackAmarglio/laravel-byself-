@@ -149,8 +149,6 @@ class UserAuthController extends Controller
         $decryptTokenArray = json_decode($decryptToken, true);
 
         $email = ($decryptTokenArray[0]['email']);
-        return response(['dd'=> $data['password']]);
-
         $password = Hash::make($data['password']);
         $user = User::where('email', $email)->update(['password' => $password]);
         return response('OK');
