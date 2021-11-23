@@ -5,6 +5,7 @@ Thanks for registering my homepage.
 
 @component('mail::button', ['url' =>'https://hopeful-chandrasekhar-517d3b.netlify.app/verify/'.$token])
 Verify
+
 @endcomponent
 Thanks,<br>
 {{ config('app.name') }}
