@@ -4,7 +4,7 @@
 Do you want to reset password? 
 If so click button.
 
-@component('mail::button', ['url' => 'https://wizardly-easley-48f918.netlify.app/forgotpassword/'.$token])
+@component('mail::button', ['url' => 'https://hungry-kilby-3e4c68.netlify.app/forgotpassword/'.$token])
 Reset password
 @endcomponent
 
