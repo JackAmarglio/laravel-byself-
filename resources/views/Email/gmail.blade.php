@@ -3,7 +3,7 @@
 
 Thanks for registering my homepage.
 
-@component('mail::button', ['url' =>'https://hungry-kilby-3e4c68.netlify.app/verify/'.$token])
+@component('mail::button', ['url' =>'https://competent-roentgen-c0be06.netlify.app/verify/'.$token])
 Verify
 @endcomponent
 Thanks,<br>
